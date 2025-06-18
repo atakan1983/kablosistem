@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     const final = `#EXTM3U\n#EXTINF${selected.trim()}`;
 
     res.setHeader('Content-Type', 'application/vnd.apple.mpegurl');
-    res.send(final);
+    res.status(200).send(final);
   } catch (err) {
     res.status(500).send('Bir hata oluştu.');
   }
