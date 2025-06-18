@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 export default async function handler(req, res) {
   const { id } = req.query;
 
-  const m3uUrl = 'https://raw.githubusercontent.com/atakan1983/kabloo/main/mehmet.m3u';
+  const m3uUrl = 'https://raw.githubusercontent.com/atakan1983/kabloo/refs/heads/main/mehmet.m3u';
 
   try {
     const response = await fetch(m3uUrl);
