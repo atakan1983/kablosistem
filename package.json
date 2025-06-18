@@ -1,4 +1,9 @@
 {
-  "name": "kablosistem",
-  "version": "1.0.0"
+  "version": 2,
+  "routes": [
+    {
+      "src": "/index.m3u8",
+      "dest": "api/index.js"
+    }
+  ]
 }
