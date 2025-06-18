@@ -1,27 +1,27 @@
 export default async function handler(req, res) {
-  const id = parseInt(req.query.id);
-  if (!id) return res.status(400).send("Geçersiz ID");
+  res.setHeader("Access-Control-Allow-Origin", "*");
 
-  const url = "https://raw.githubusercontent.com/atakan1983/kabloo/main/mehmet.m3u";
+  const kanal = req.query.kanal;
+  if (!kanal) return res.status(400).json({ error: "Kanal adı belirtilmedi" });
+
+  const url = "https://raw.githubusercontent.com/atakan1983/kabloo/refs/heads/main/mehmet.m3u";
 
   try {
     const response = await fetch(url);
     const text = await response.text();
     const lines = text.split("\n");
 
-    let count = 0;
     for (let i = 0; i < lines.length; i++) {
-      if (lines[i].startsWith("#EXTINF")) {
-        count++;
-        if (count === id && lines[i + 1]) {
-          const streamUrl = lines[i + 1].trim();
-          return res.redirect(302, streamUrl);
+      if (lines[i].toLowerCase().includes(kanal.toLowerCase())) {
+        const streamUrl = lines[i + 1]?.trim();
+        if (streamUrl && streamUrl.startsWith("http")) {
+          return res.status(200).json({ stream: streamUrl });
         }
       }
     }
 
-    return res.status(404).send("Kanal bulunamadı.");
+    return res.status(404).json({ error: "Kanal bulunamadı." });
   } catch (err) {
-    return res.status(500).send("Sunucu hatası.");
+    return res.status(500).json({ error: "Sunucu hatası." });
   }
 }
