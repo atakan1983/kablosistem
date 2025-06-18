@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
-  const id = parseInt(req.query.id);
-  if (!id) return res.status(400).send("Geçersiz ID");
+  const kanal = req.query.kanal;
+  if (!kanal) return res.status(400).send("Kanal adı belirtilmedi");
 
   const url = "https://raw.githubusercontent.com/atakan1983/kabloo/refs/heads/main/mehmet.m3u";
 
@@ -9,12 +9,10 @@ export default async function handler(req, res) {
     const text = await response.text();
     const lines = text.split("\n");
 
-    let count = 0;
     for (let i = 0; i < lines.length; i++) {
-      if (lines[i].startsWith("#EXTINF")) {
-        count++;
-        if (count === id && lines[i + 1]) {
-          const streamUrl = lines[i + 1].trim();
+      if (lines[i].toLowerCase().includes(kanal.toLowerCase())) {
+        const streamUrl = lines[i + 1]?.trim();
+        if (streamUrl && streamUrl.startsWith("http")) {
           return res.redirect(302, streamUrl);
         }
       }
