@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   const { id } = req.query;
 
   try {
-    const response = await fetch("https://raw.githubusercontent.com/atakan1983/kabloo/refs/heads/main/mehmet.m3u");
+    const response = await fetch("https://raw.githubusercontent.com/troyssss/CanliTvListe/refs/heads/main/yeni.m3u");
     const text = await response.text();
     const lines = text.split("\n");
 
